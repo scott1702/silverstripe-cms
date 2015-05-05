@@ -29,12 +29,12 @@ class CMSBatchAction_Publish extends CMSBatchAction {
  */
 class CMSBatchAction_Unpublish extends CMSBatchAction {
 	public function getActionTitle() {
-		return _t('CMSBatchActions.UNPUBLISH_PAGES', 'Un-publish');
+		return _t('CMSBatchActions.UNPUBLISH_PAGES', 'Unpublish');
 	}
 
 	public function run(SS_List $pages) {
 		return $this->batchaction($pages, 'doUnpublish',
-			_t('CMSBatchActions.UNPUBLISHED_PAGES', 'Un-published %d pages')
+			_t('CMSBatchActions.UNPUBLISHED_PAGES', 'Unpublished %d pages')
 		);
 	}
 }
@@ -47,7 +47,7 @@ class CMSBatchAction_Unpublish extends CMSBatchAction {
  */
 class CMSBatchAction_Delete extends CMSBatchAction {
 	public function getActionTitle() {
-		return _t('CMSBatchActions.DELETE_DRAFT_PAGES', 'Delete from draft site');
+		return _t('CMSBatchActions.DELETE_DRAFT_PAGES', 'Archive');
 	}
 
 	public function run(SS_List $pages) {
@@ -80,7 +80,7 @@ class CMSBatchAction_Delete extends CMSBatchAction {
 
 		}
 
-		return $this->response(_t('CMSBatchActions.DELETED_DRAFT_PAGES', 'Deleted %d pages from draft site, %d failures'), $status);
+		return $this->response(_t('CMSBatchActions.DELETED_DRAFT_PAGES', 'Archived %d pages, %d failures'), $status);
 	}
 
 	public function applicablePages($ids) {

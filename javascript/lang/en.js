@@ -36,7 +36,7 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
 	"Tree.ThisPageOnly": "This page only",
 	"Tree.ThisPageAndSubpages": "This page and subpages",
 	"Tree.ShowAsList": "Show children as list",
-	"CMSMain.ConfirmRestoreFromLive": "Do you really want to copy the published content to the draft site?",
+	"CMSMain.ConfirmRestoreFromLive": "Are you sure you want to revert draft to when the page was last published?",
 	"CMSMain.RollbackToVersion": "Do you really want to roll back to version #%s of this page?",
 	"URLSEGMENT.Edit": "Edit",
 	"URLSEGMENT.OK": "OK",

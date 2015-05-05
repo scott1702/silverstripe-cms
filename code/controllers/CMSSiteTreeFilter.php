@@ -224,7 +224,7 @@ class CMSSIteTreeFilter_PublishedPages extends CMSSiteTreeFilter {
 	 * @return string
 	 */
 	static public function title() {
-		return _t('CMSSIteTreeFilter_PublishedPages.Title', "Published pages");
+		return _t('CMSSIteTreeFilter_PublishedPages.Title', "Published");
 	}
 
 	/**
@@ -274,7 +274,7 @@ class CMSSiteTreeFilter_DeletedPages extends CMSSiteTreeFilter {
 	protected $numChildrenMethod = 'numHistoricalChildren';
 	
 	static public function title() {
-		return _t('CMSSiteTreeFilter_DeletedPages.Title', "All pages, including deleted");
+		return _t('CMSSiteTreeFilter_DeletedPages.Title', "All, including deleted");
 	}
 	
 	public function getFilteredPages() {
@@ -293,7 +293,7 @@ class CMSSiteTreeFilter_DeletedPages extends CMSSiteTreeFilter {
 class CMSSiteTreeFilter_ChangedPages extends CMSSiteTreeFilter {
 	
 	static public function title() {
-		return _t('CMSSiteTreeFilter_ChangedPages.Title', "Changed pages");
+		return _t('CMSSiteTreeFilter_ChangedPages.Title', 'Modified');
 	}
 	
 	public function getFilteredPages() {
@@ -314,7 +314,7 @@ class CMSSiteTreeFilter_ChangedPages extends CMSSiteTreeFilter {
 class CMSSiteTreeFilter_StatusRemovedFromDraftPages extends CMSSiteTreeFilter {
 	
 	static public function title() {
-		return _t('CMSSiteTreeFilter_StatusRemovedFromDraftPages.Title', 'Live but removed from draft');
+		return _t('CMSSiteTreeFilter_StatusRemovedFromDraftPages.Title', 'Archived');
 	}
 	
 	/**
@@ -342,7 +342,7 @@ class CMSSiteTreeFilter_StatusRemovedFromDraftPages extends CMSSiteTreeFilter {
 class CMSSiteTreeFilter_StatusDraftPages extends CMSSiteTreeFilter {
 	
 	static public function title() {
-		return _t('CMSSiteTreeFilter_StatusDraftPages.Title', 'Draft unpublished pages');
+		return _t('CMSSiteTreeFilter_StatusDraftPages.Title', 'Draft');
 	}
 	
 	/**
@@ -381,7 +381,7 @@ class CMSSiteTreeFilter_StatusDeletedPages extends CMSSiteTreeFilter {
 	protected $numChildrenMethod = 'numHistoricalChildren';
 	
 	static public function title() {
-		return _t('CMSSiteTreeFilter_StatusDeletedPages.Title', 'Deleted pages');
+		return _t('CMSSiteTreeFilter_StatusDeletedPages.Title', 'Deleted');
 	}
 	
 	/**
@@ -409,7 +409,7 @@ class CMSSiteTreeFilter_StatusDeletedPages extends CMSSiteTreeFilter {
 class CMSSiteTreeFilter_Search extends CMSSiteTreeFilter {
 
 	static public function title() {
-		return _t('CMSSiteTreeFilter_Search.Title', "All pages");
+		return _t('CMSSiteTreeFilter_Search.Title', "All");
 	}
 	
 	/**

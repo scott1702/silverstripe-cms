@@ -89,7 +89,6 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		CMSBatchActionHandler::register('publish', 'CMSBatchAction_Publish');
 		CMSBatchActionHandler::register('unpublish', 'CMSBatchAction_Unpublish');
 		CMSBatchActionHandler::register('delete', 'CMSBatchAction_Delete');
-		CMSBatchActionHandler::register('deletefromlive', 'CMSBatchAction_DeleteFromLive');
 	}
 
 	public function index($request) {
@@ -1094,7 +1093,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		
 		$this->response->addHeader(
 			'X-Status',
-			rawurlencode(_t('CMSMain.REMOVEDPAGE',"Removed '{title}' from the published site", array('title' => $record->Title)))
+			rawurlencode(_t('CMSMain.REMOVEDPAGE',"The page '{title}' has been unpublished", array('title' => $record->Title)))
 		);
 		
 		return $this->getResponseNegotiator()->respond($this->getRequest());

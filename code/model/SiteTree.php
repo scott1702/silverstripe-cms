@@ -2337,7 +2337,7 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 				if($this->canDelete()) {
 					// "delete"
 					$moreOptions->push(
-						FormAction::create('delete',_t('CMSMain.DELETE','Delete draft'))->addExtraClass('delete ss-ui-action-destructive')
+						FormAction::create('delete',_t('CMSMain.DELETE','Archive'))->addExtraClass('delete ss-ui-action-destructive')
 					);
 				}
 			
@@ -2721,7 +2721,7 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 			if($this->IsDeletedFromStage) {
 				if($this->ExistsOnLive) {
 					$flags['removedfromdraft'] = array(
-						'text' => _t('SiteTree.REMOVEDFROMDRAFTSHORT', 'Removed from draft'),
+						'text' => _t('SiteTree.REMOVEDFROMDRAFTSHORT', 'Archived'),
 						'title' => _t('SiteTree.REMOVEDFROMDRAFTHELP', 'Page is published, but has been deleted from draft'),
 					);
 				} else {

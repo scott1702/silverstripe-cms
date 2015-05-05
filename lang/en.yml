@@ -61,14 +61,14 @@ en:
   CMSAddPageController:
     Title: 'Add page'
   CMSBatchActions:
-    DELETED_DRAFT_PAGES: 'Deleted %d pages from draft site, %d failures'
+    DELETED_DRAFT_PAGES: 'Archived %d pages, %d failures'    
     DELETED_PAGES: 'Deleted %d pages from published site, %d failures'
-    DELETE_DRAFT_PAGES: 'Delete from draft site'
+    DELETE_DRAFT_PAGES: 'Archive'
     DELETE_PAGES: 'Delete from published site'
     PUBLISHED_PAGES: 'Published %d pages, %d failures'
     PUBLISH_PAGES: Publish
-    UNPUBLISHED_PAGES: 'Un-published %d pages'
-    UNPUBLISH_PAGES: Un-publish
+    UNPUBLISHED_PAGES: 'Unpublished %d pages'
+    UNPUBLISH_PAGES: Unpublish
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
     ACCESS_HELP: 'Allow viewing of the section containing page tree and content. View and edit permissions can be handled through page specific dropdowns, as well as the separate "Content permissions".'
@@ -79,7 +79,7 @@ en:
     ChoosePageParentMode: 'Choose where to create this page'
     ChoosePageType: 'Choose page type'
     Create: Create
-    DELETE: 'Delete draft'
+    DELETE: 'Archive'
     DELETEFP: Delete
     DESCREMOVED: 'and {count} descendants'
     DUPLICATED: 'Duplicated ''{title}'' successfully'
@@ -98,7 +98,7 @@ en:
     PUBPAGES: 'Done: Published {count} pages'
     PageAdded: 'Successfully created page'
     REMOVED: 'Deleted ''{title}''{description} from live site'
-    REMOVEDPAGE: 'Removed ''{title}'' from the published site'
+    REMOVEDPAGE: 'The page ''{title}'' has been unpublished'
     REMOVEDPAGEFROMDRAFT: 'Removed ''%s'' from the draft site'
     RESTORE: Restore
     RESTORED: 'Restored ''{title}'' successfully'
@@ -152,11 +152,19 @@ en:
     FILTERDATETO: To
     FILTERLABELTEXT: Content
   CMSSiteTreeFilter_ChangedPages:
-    Title: 'Changed pages'
+    Title: 'Modified'
   CMSSiteTreeFilter_DeletedPages:
-    Title: 'All pages, including deleted'
+    Title: 'All, including deleted'
   CMSSiteTreeFilter_Search:
-    Title: 'All pages'
+    Title: 'All'
+  CMSSiteTreeFilter_StatusDeletedPages:
+    Title: 'Deleted'
+  CMSSiteTreeFilter_StatusDraftPages:
+    Title: 'Draft'
+  CMSSiteTreeFilter_StatusRemovedFromDraftPages:
+    Title: 'Archived'
+  CMSSIteTreeFilter_PublishedPages:
+    Title: 'Published'
   ContentControl:
     NOTEWONTBESHOWN: 'Note: this message will not be shown to your visitors'
   ContentController:
@@ -361,7 +369,7 @@ en:
     PageTypNotAllowedOnRoot: 'Page type "{type}" is not allowed on the root level'
     PageTypeNotAllowed: 'Page type "{type}" not allowed as child of this parent page'
     REMOVEDFROMDRAFTHELP: 'Page is published, but has been deleted from draft'
-    REMOVEDFROMDRAFTSHORT: 'Removed from draft'
+    REMOVEDFROMDRAFTSHORT: 'Archived'
     REMOVE_INSTALL_WARNING: 'Warning: You should remove install.php from this SilverStripe install for security reasons.'
     REORGANISE_DESCRIPTION: 'Change site structure'
     REORGANISE_HELP: 'Rearrange pages in the site tree through drag&drop.'

@@ -277,6 +277,59 @@
 		});
 
 		/**
+		 * Class: .cms-edit-form .Actions #Form_EditForm_action_delete
+		 * 
+		 * Informing the user about the archive action while requiring confirmation
+		 */
+		$('.cms-edit-form .Actions #Form_EditForm_action_delete').entwine({
+			
+			/**
+			 * Function: onclick
+			 * 
+			 * Parameters:
+			 *  (Event) e
+			 */
+			onclick: function(e) {
+				var form = this.parents('form:first'), version = form.find(':input[name=Version]').val(), message = '';
+				message = ss.i18n.sprintf(
+					ss.i18n._t('CMSMain.ArchivePage'), 
+					version
+				);
+				if(confirm(message)) {
+					return this._super(e);
+				} else {
+					return false;
+				}
+			}
+		});
+
+		/**
+		 * Class: .cms-edit-form .Actions #Form_EditForm_action_unpublish
+		 * Informing the user about the unpublish action while requiring confirmation
+		 */
+		$('.cms-edit-form .Actions #Form_EditForm_action_unpublish').entwine({
+			
+			/**
+			 * Function: onclick
+			 * 
+			 * Parameters:
+			 *  (Event) e
+			 */
+			onclick: function(e) {
+				var form = this.parents('form:first'), version = form.find(':input[name=Version]').val(), message = '';
+				message = ss.i18n.sprintf(
+					ss.i18n._t('CMSMain.Unpublish'), 
+					version
+				);
+				if(confirm(message)) {
+					return this._super(e);
+				} else {
+					return false;
+				}
+			}
+		});
+
+		/**
 		 * Enable save buttons upon detecting changes to content.
 		 * "changed" class is added by jQuery.changetracker.
 		 */
