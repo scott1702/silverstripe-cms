@@ -151,7 +151,7 @@ en:
     MENUTITLE: Pages
     TreeView: 'Tree View'
   CMSPagesController_ContentToolbar_ss:
-    MULTISELECT: Multi-selection
+    MULTISELECT: Bulk actions
   CMSPagesController_Tools_ss:
     FILTER: Filter
   CMSSearch:

@@ -9,7 +9,7 @@ Feature: Search for a page
 		And a "page" "Contact Us"
 		And I am logged in with "ADMIN" permissions
 		And I go to "/admin/pages"
-		And I expand the "Filter" CMS Panel
+		And I expand the content filters
 
 	Scenario: I can search for a page by its title
 		Given I fill in "Content" with "About Us"
@@ -46,7 +46,8 @@ Feature: Search for a page
 		And the "page" "Deleted Page" is deleted
 		When I press the "Apply Filter" button
 		Then I should not see "Deleted Page" in the tree
-		When I select "All pages, including archived" from "Pages"
+		When I expand the content filters
+		And I select "All pages, including archived" from "Pages"
 		And I press the "Apply Filter" button
 		Then I should see "Deleted Page" in the tree
 
@@ -56,7 +57,8 @@ Feature: Search for a page
 		And the "page" "Deleted Page" is deleted
 		When I press the "Apply Filter" button
 		Then I should not see "Deleted Page" in the tree
-		When I select "Archived pages" from "Pages"
+		When I expand the content filters
+		And I select "Archived pages" from "Pages"
 		And I press the "Apply Filter" button
 		Then I should see "Deleted Page" in the tree
 		And I should not see "About Us" in the tree
@@ -66,7 +68,8 @@ Feature: Search for a page
 		And the "page" "Draft Page" is not published
 		When I press the "Apply Filter" button
 		Then I should see "Draft Page" in the tree
-		When I select "Draft pages" from "Pages"
+		When I expand the content filters
+		And I select "Draft pages" from "Pages"
 		And I press the "Apply Filter" button
 		Then I should see "Draft Page" in the tree
 		And I should not see "About Us" in the tree
@@ -80,7 +83,7 @@ Feature: Search for a page
 		Then I should see "Saved" in the "button#Form_EditForm_action_save" element
 
 		When I go to "/admin/pages"
-		And I expand the "Filter" CMS Panel
+		And I expand the content filters
 		When I select "Modified pages" from "Pages"
 		And I press the "Apply Filter" button
 		Then I should see "About Us" in the tree
@@ -92,7 +95,8 @@ Feature: Search for a page
 		And the "page" "Live Page" is deleted
 		When I press the "Apply Filter" button
 		Then I should not see "Live Page" in the tree
-		When I select "Live but removed from draft" from "Pages"
+		When I expand the content filters
+		And I select "Live but removed from draft" from "Pages"
 		And I press the "Apply Filter" button
 		Then I should see "Live Page" in the tree
 		And I should not see "About Us" in the tree
