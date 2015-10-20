@@ -1,6 +1,7 @@
 <?php
 
 use SilverStripe\Filesystem\Storage\AssetNameGenerator;
+use SilverStripe\Forms\AssetGalleryField;
 
 /**
  * AssetAdmin is the 'file store' section of the CMS.
@@ -190,7 +191,7 @@ JS
 			$addFolderBtn = new LiteralField(
 				'AddFolderButton',
 				sprintf(
-					'<a class="ss-ui-button font-icon-plus-circled cms-add-folder-link" data-icon="add" data-url="%s" href="%s">%s</a>',
+					'<a class="ss-ui-button font-icon-folder-add cms-add-folder-link" data-icon="add" data-url="%s" href="%s">%s</a>',
 					Controller::join_links($this->Link('AddForm'), '?' . http_build_query(array(
 						'action_doAdd' => 1,
 						'ParentID' => $folder->ID,
@@ -210,13 +211,13 @@ JS
 		if(!$fields->hasTabset()) {
 			$tabs = new TabSet('Root',
 				$tabList = new Tab('ListView', _t('AssetAdmin.ListView', 'List View')),
-				$tabTree = new Tab('TreeView', _t('AssetAdmin.TreeView', 'Tree View'))
+				$tabTree = new Tab('GalleryView', _t('AssetAdmin.GalleryView', 'Gallery View'))
 			);
-			$tabList->addExtraClass("content-listview cms-tabset-icon list");
+			$tabList->addExtraClass("content-galleryview cms-tabset-icon list");
 			$tabTree->addExtraClass("content-treeview cms-tabset-icon tree");
 			if($fields->Count() && $folder->exists()) {
 				$tabs->push($tabDetails = new Tab('DetailsView', _t('AssetAdmin.DetailsView', 'Details')));
-				$tabDetails->addExtraClass("content-galleryview cms-tabset-icon edit");
+				$tabDetails->addExtraClass("content-detailsview cms-tabset-icon edit");
 				foreach($fields as $field) {
 					$fields->removeByName($field->getName());
 					$tabDetails->push($field);
@@ -257,32 +258,15 @@ JS
 		$uploadField->Extensions = implode(', ', $exts);
 
 		// List view
-		$fields->addFieldsToTab('Root.ListView', array(
-			$actionsComposite = CompositeField::create(
-				$actionButtonsComposite
-			)->addExtraClass('cms-content-toolbar field'),
-			$uploadField,
-			new HiddenField('ID'),
-			$gridField
-		));
-		
-		// Tree view
-		$fields->addFieldsToTab('Root.TreeView', array(
-			clone $actionsComposite,
-			// TODO Replace with lazy loading on client to avoid performance hit of rendering potentially unused views
-			new LiteralField(
-				'Tree',
-				FormField::create_tag(
-					'div',
-					array(
-						'class' => 'cms-tree',
-						'data-url-tree' => $this->Link('getsubtree'),
-						'data-url-savetreenode' => $this->Link('savetreenode')
-					),
-					$this->SiteTreeAsUL()
-				)
-			)
-		));
+		$tab = $fields->findOrMakeTab('Root.ListView');
+		$tab->push(CompositeField::create($actionButtonsComposite)->addExtraClass('cms-content-toolbar field'));
+		$tab->push(HiddenField::create('ID'));
+		$tab->push($gridField);
+
+		// Gallery view
+		$tab = $fields->findOrMakeTab('Root.GalleryView');
+		$tab->push(CompositeField::create($actionButtonsComposite)->addExtraClass('cms-content-toolbar field'));
+		$tab->push(AssetGalleryField::create('Files')->setCurrentPath('')->setLimit(15));
 
 		// Move actions to "details" tab (they don't make sense on list/tree view)
 		$actions = $form->Actions();
@@ -296,6 +280,8 @@ JS
 				CompositeField::create($saveBtn,$deleteBtn)->addExtraClass('Actions')
 			);
 		}
+
+		$fields->unshift($uploadField);
 
 		$fields->setForm($form);
 		$form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
@@ -386,6 +372,14 @@ JS
 				$appCategories
 			)
 		);
+
+		$request = Controller::curr()->getRequest();
+		$query = $request->getVar('q');
+		$field = new HiddenField('q[Folder]');
+		if (!empty($query) && !empty($query['Folder'])) {
+			$field->setValue(urldecode($query['Folder']));
+		}
+		$context->addField($field);
 
 		$typeDropdown->setEmptyString(' ');
 
@@ -627,4 +621,3 @@ class AssetAdmin_DeleteBatchAction extends CMSBatchAction {
 		return Convert::raw2json($status);
 	}
 }
-

@@ -11,7 +11,7 @@
 		$(document).ready(function() {
 			$('#Form_BatchActionsForm').entwine('.ss.tree').register(
 				// TODO Hardcoding of base URL
-				'admin/assets/batchactions/delete', 
+				'admin/assets/batchactions/delete',
 				function(ids) {
 					var confirmed = confirm(
 						ss.i18n.sprintf(
@@ -55,9 +55,9 @@
 					msg = ss.i18n._t('AssetAdmin.ConfirmDelete');
 				} else {
 					msg = ss.i18n._t('TABLEFIELD.DELETECONFIRMMESSAGE');
-				} 
-				if(!confirm(msg)) return false;	
-				
+				}
+				if(!confirm(msg)) return false;
+
 				this.getGridField().reload({data: [{name: this.attr('name'), value: this.val()}]});
 				e.preventDefault();
 				return false;
@@ -66,7 +66,7 @@
 
 		$('.AssetAdmin.cms-edit-form :submit[name=action_delete]').entwine({
 			onclick: function(e) {
-				if(!confirm(ss.i18n._t('AssetAdmin.ConfirmDelete'))) return false;	
+				if(!confirm(ss.i18n._t('AssetAdmin.ConfirmDelete'))) return false;
 				else this._super(e);
 			}
 		});
@@ -91,10 +91,10 @@
 		 * Class: #Form_SyncForm
 		 */
 		$('#Form_SyncForm').entwine({
-			
+
 			/**
 			 * Function: onsubmit
-			 * 
+			 *
 			 * Parameters:
 			 *  (Event) e
 			 */
@@ -118,7 +118,7 @@
 						}});
 					}
 				});
-				
+
 				return false;
 			}
 		});
@@ -129,6 +129,16 @@
 		$('.AssetAdmin.cms-edit-form .ss-uploadfield-item-progress').entwine({
 			onunmatch: function () {
 				$('.AssetAdmin.cms-edit-form .ss-gridfield').reload();
+			}
+		})
+
+		$('.AssetAdmin .cms-panel-link').entwine({
+			onclick: function () {
+				if ($('div.content-detailsview').is(':visible')) {
+					$('div.ss-upload').hide();
+				} else {
+					$('div.ss-upload').show();
+				}
 			}
 		})
 	});
