@@ -60,6 +60,16 @@ Feature: Insert an image into a page
     Then the "Content" HTML field should contain "file1__Resampled.jpg"
     # Required to avoid "unsaved changed" browser dialog
     Then I press the "Save draft" button
+    
+  Scenario: I can insert an image from the CMS gallery view
+    Given I press the "Insert Media" button
+    And I follow "Gallery view"
+    And I double click "folder1" in the ".asset-gallery" element
+    And I press "Select"
+    When I press the "Insert" button
+    Then the "Content" HTML field should contain "file1__Resampled.jpg"
+    # Required to avoid "unsaved changed" browser dialog
+    Then I press the "Save draft" button
 
   Scenario: I can edit properties of an image before inserting it
     Given I press the "Insert Media" button
