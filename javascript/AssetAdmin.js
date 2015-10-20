@@ -124,10 +124,13 @@
 		});
 
 		/**
-		 * Reload the gridfield to show the user the file has been added
+		 * Reload the gridfield and asset-gallery to show the user the file has been added
 		 */
-		$('.AssetAdmin.cms-edit-form .ss-uploadfield-item-progress').entwine({
-			onunmatch: function () {
+		$('.AssetAdmin.cms-edit-form .ss-uploadfield-item.template-download').entwine({
+			onmatch: function () {
+				this._super();
+				
+				$('.asset-gallery').trigger('cms.fileAdded');
 				$('.AssetAdmin.cms-edit-form .ss-gridfield').reload();
 			}
 		});
@@ -146,6 +149,6 @@
 					$('div.ss-upload').show();
 				}
 			}
-		})
+		});
 	});
 }(jQuery));
