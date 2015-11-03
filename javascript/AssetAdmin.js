@@ -137,16 +137,24 @@
 		
 		$('.AssetAdmin .grid-levelup').entwine({
 			onmatch: function () {
-				this.closest('.ui-tabs-panel').find('.cms-actions-row').prepend(this);
+				$('.AssetAdmin .cms-actions-row').prepend(this);
 			}
-		})
+		});
 
 		$('.AssetAdmin .cms-panel-link').entwine({
 			onclick: function () {
-				if ($('div.content-detailsview').is(':visible')) {
-					$('div.ss-upload').hide();
+				//If gallery view
+				if ($('div.content-galleryview').is(':visible')) {
+					$('.grid-levelup').hide();
 				} else {
-					$('div.ss-upload').show();
+					$('.grid-levelup').show();
+				}
+				
+				//If details view
+				if ($('div.content-detailsview').is(':visible')) {
+					$('div.ss-upload, .AssetAdmin .cms-content-toolbar').hide();
+				} else {
+					$('div.ss-upload, .AssetAdmin .cms-content-toolbar').show();
 				}
 			}
 		});

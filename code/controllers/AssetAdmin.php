@@ -211,10 +211,10 @@ JS
 		if(!$fields->hasTabset()) {
 			$tabs = new TabSet('Root',
 				$tabList = new Tab('ListView', _t('AssetAdmin.ListView', 'List View')),
-				$tabTree = new Tab('GalleryView', _t('AssetAdmin.GalleryView', 'Gallery View'))
+				$tabGallery = new Tab('GalleryView', _t('AssetAdmin.GalleryView', 'Gallery View'))
 			);
-			$tabList->addExtraClass("content-galleryview cms-tabset-icon list");
-			$tabTree->addExtraClass("content-treeview cms-tabset-icon tree");
+			$tabList->addExtraClass("content-listview cms-tabset-icon list");
+			$tabGallery->addExtraClass("content-galleryview cms-tabset-icon tree");
 			if($fields->Count() && $folder->exists()) {
 				$tabs->push($tabDetails = new Tab('DetailsView', _t('AssetAdmin.DetailsView', 'Details')));
 				$tabDetails->addExtraClass("content-detailsview cms-tabset-icon edit");
@@ -259,13 +259,11 @@ JS
 
 		// List view
 		$tab = $fields->findOrMakeTab('Root.ListView');
-		$tab->push(CompositeField::create($actionButtonsComposite)->addExtraClass('cms-content-toolbar field'));
 		$tab->push(HiddenField::create('ID'));
 		$tab->push($gridField);
 
 		// Gallery view
 		$tab = $fields->findOrMakeTab('Root.GalleryView');
-		$tab->push(CompositeField::create($actionButtonsComposite)->addExtraClass('cms-content-toolbar field'));
 		$tab->push(AssetGalleryField::create('Files')->setCurrentPath('')->setLimit(15));
 
 		// Move actions to "details" tab (they don't make sense on list/tree view)
@@ -282,6 +280,7 @@ JS
 		}
 
 		$fields->unshift($uploadField);
+		$fields->unshift(CompositeField::create($actionButtonsComposite)->addExtraClass('cms-content-toolbar field'));
 
 		$fields->setForm($form);
 		$form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
