@@ -4,47 +4,98 @@
 
 (function($) {
 	$.entwine('ss', function($){
+
 		/**
-		 * Delete selected folders through "batch actions" tab.
+		 * Add some AssetAdmin specific event listeners for communicating between the GridField and GalleryField.
 		 */
-		/* assets don't currently have batch actions; disabling for now
-		$(document).ready(function() {
-			$('#Form_BatchActionsForm').entwine('.ss.tree').register(
-				// TODO Hardcoding of base URL
-				'admin/assets/batchactions/delete',
-				function(ids) {
-					var confirmed = confirm(
-						ss.i18n.sprintf(
-							ss.i18n._t('AssetAdmin.BATCHACTIONSDELETECONFIRM'),
-							ids.length
-						)
-					);
-					return (confirmed) ? ids : false;
-				}
-			);
+		$('.AssetAdmin .asset-gallery').entwine({
+			/**
+			 * Listeners / callbacks which get passed into the GalleryField.
+			 * This lets us update GalleryField when GridField changes.
+			 */
+			getProps: function () {
+				return this._super({
+					cmsEvents: {
+						'asset-admin.gridfield.folder-changed': function (event, id) {
+							var folder = this.getFileById(id),
+								folderName = ''; // Default to the top level
+
+							if (folder !== null) {
+								folderName = folder.filename;
+							}
+
+							this.onNavigate(folderName, true);
+						}
+					}
+				});
+			}
 		});
-		*/
+
+		/**
+		 * Listen for changes to the GalleryField.
+		 * These event are triggered within the GalleryField component.
+		 */
+		$('.AssetAdmin.cms-edit-form .ss-gridfield').entwine({
+			onadd: function () {
+				this._super();
+
+				$(document).on('asset-gallery-field.folder-changed', function (event, id) {
+					$('.cms-container').loadPanel(this.data('urlFolderTemplate').replace('%s', id));
+				}.bind(this));
+			},
+
+			onremove: function () {
+				this._super();
+
+				$(document).off('asset-gallery-field.folder-changed');
+			}
+		});
 
 		/**
 		 * Load folder detail view via controller methods
 		 * rather than built-in GridField view (which is only geared towards showing files).
 		 */
 		$('.AssetAdmin.cms-edit-form .ss-gridfield-item').entwine({
+
 			onclick: function(e) {
+				var grid;
+
 				// Let actions do their own thing
 				if($(e.target).closest('.action').length) {
 					this._super(e);
 					return;
 				}
 
-				var grid = this.closest('.ss-gridfield');
-				if(this.data('class') == 'Folder') {
-					var url = grid.data('urlFolderTemplate').replace('%s', this.data('id'));
+				grid = this.closest('.ss-gridfield');
+
+				if(this.data('class') === 'Folder') {
+					var id = this.data('id'),
+						url = grid.data('urlFolderTemplate').replace('%s', id);
+
+					// Sync the Gallery component.
+					$(document).trigger('asset-admin.gridfield.folder-changed', id);
+
 					$('.cms-container').loadPanel(url);
+
 					return false;
 				}
 
 				this._super(e);
+			}
+		});
+
+		/**
+		 * Sync the gallery view when the user navigates up one level using the gridfield.
+		 */
+		$('.AssetAdmin.cms-edit-form .list-parent-link').entwine({
+			onclick: function (event) {
+				var urlParts = this.prop('href').split('/');
+
+				$(document).trigger('asset-admin.gridfield.folder-changed', urlParts[urlParts.length - 1]);
+
+				$('.cms-container').saveTabState();
+
+				this._super(event);
 			}
 		});
 
