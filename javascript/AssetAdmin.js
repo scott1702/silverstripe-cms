@@ -87,7 +87,10 @@
 		/**
 		 * Sync the gallery view when the user navigates up one level using the gridfield.
 		 */
-		$('.AssetAdmin.cms-edit-form .list-parent-link').entwine({
+		$('.AssetAdmin.cms-edit-form .grid-levelup').entwine({
+			onmatch: function () {
+				$('.AssetAdmin .cms-actions-row').prepend(this);
+			},
 			onclick: function (event) {
 				var urlParts = this.prop('href').split('/');
 
@@ -96,6 +99,26 @@
 				$('.cms-container').saveTabState();
 
 				this._super(event);
+			}
+		});
+		
+		/**
+		 * Hide the asset-gallery's back button (Navigating up) is handled by the gridfield's back button
+		 */
+		$('.AssetAdmin.cms-edit-form .gallery__back').entwine({
+			onmatch: function () {
+				this.hide();
+			}
+		});
+		
+		/**
+		 * Position the gallery's bulk actions component
+		 */
+		$('.AssetAdmin.cms-edit-form .gallery__bulk').entwine({
+			onmatch: function () {
+				var leftVal = $('.AssetAdmin .cms-content-toolbar').outerWidth() + $('.AssetAdmin .ss-uploadfield-fromcomputer').outerWidth() + 12;
+				
+				this.css('left', leftVal).show();
 			}
 		});
 
@@ -185,22 +208,9 @@
 				$('.AssetAdmin.cms-edit-form .ss-gridfield').reload();
 			}
 		});
-		
-		$('.AssetAdmin .grid-levelup').entwine({
-			onmatch: function () {
-				$('.AssetAdmin .cms-actions-row').prepend(this);
-			}
-		});
 
 		$('.AssetAdmin .cms-panel-link').entwine({
 			onclick: function () {
-				//If gallery view
-				if ($('div.content-galleryview').is(':visible')) {
-					$('.grid-levelup').hide();
-				} else {
-					$('.grid-levelup').show();
-				}
-				
 				//If details view
 				if ($('div.content-detailsview').is(':visible')) {
 					$('div.ss-upload, .AssetAdmin .cms-content-toolbar').hide();
