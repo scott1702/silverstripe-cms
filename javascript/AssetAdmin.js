@@ -16,6 +16,7 @@
 			getProps: function () {
 				return this._super({
 					cmsEvents: {
+						// Sync the GalleryField when we navigate folders in the GridField.
 						'asset-admin.gridfield.folder-changed': function (event, id) {
 							var folder = this.getFileById(id),
 								folderName = ''; // Default to the top level
@@ -25,6 +26,11 @@
 							}
 
 							this.onNavigate(folderName, true);
+						},
+						// Sync the GalleryField when we delete an item from the GridField.
+						'asset-admin.gridfield.item-deleted': function (event, id) {
+							// Reload the gallery.
+							this.props.backend.navigate(this.props.current_folder);
 						}
 					}
 				});
@@ -39,8 +45,15 @@
 			onadd: function () {
 				this._super();
 
+				var self = this;
+
 				$(document).on('asset-gallery-field.folder-changed', function (event, id) {
 					$('.cms-container').loadPanel(this.data('urlFolderTemplate').replace('%s', id));
+				}.bind(this));
+
+				$(document).on('asset-gallery-field.file-deleted', function (event, id) {
+					this.reload();
+					console.log('triggered gridfield delete.');
 				}.bind(this));
 			},
 
@@ -48,6 +61,7 @@
 				this._super();
 
 				$(document).off('asset-gallery-field.folder-changed');
+				$(document).off('asset-gallery-field.file-deleted');
 			}
 		});
 
@@ -124,16 +138,25 @@
 
 		$('.AssetAdmin.cms-edit-form .ss-gridfield .col-buttons .action.gridfield-button-delete, .AssetAdmin.cms-edit-form .Actions button.action.action-delete').entwine({
 			onclick: function(e) {
-				var msg;
-				if(this.closest('.ss-gridfield-item').data('class') == 'Folder') {
+				var msg,
+					$gridFieldItem = this.closest('.ss-gridfield-item');
+
+				if ($gridFieldItem.data('class') === 'Folder') {
 					msg = ss.i18n._t('AssetAdmin.ConfirmDelete');
 				} else {
 					msg = ss.i18n._t('TABLEFIELD.DELETECONFIRMMESSAGE');
 				}
-				if(!confirm(msg)) return false;
+
+				if (!confirm(msg)) {
+					return false;
+				}
 
 				this.getGridField().reload({data: [{name: this.attr('name'), value: this.val()}]});
 				e.preventDefault();
+
+				// Sync the GalleryField
+				$(document).trigger('asset-admin.gridfield.item-deleted', $gridFieldItem.data('id'));
+
 				return false;
 			}
 		});
