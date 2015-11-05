@@ -45,15 +45,38 @@
 			onadd: function () {
 				this._super();
 
-				var self = this;
-
+				// Sync the GridField when the GalleryField's folder changes.
 				$(document).on('asset-gallery-field.folder-changed', function (event, id) {
 					$('.cms-container').loadPanel(this.data('urlFolderTemplate').replace('%s', id));
 				}.bind(this));
 
-				$(document).on('asset-gallery-field.file-deleted', function (event, id) {
+				// Sync the GridField when the GalleryField deletes a file.
+				$(document).on('asset-gallery-field.file-deleted', function (event) {
 					this.reload();
-					console.log('triggered gridfield delete.');
+				}.bind(this));
+
+				// Sync the GridField when editing a file in the GalleryField.
+				$(document).on('asset-gallery-field.enter-file-view', function (event, id) {
+					var $form = this.closest('.cms-edit-form');
+
+					// Hide the UploadField, 'add new folder' and 'up level' buttons.
+					$form.find('.cms-content-toolbar').hide();
+					$form.find('.ss-assetuploadfield').hide();
+
+					// Also hide the 'change view mode' tabs because there's no equivalent view for GridField.
+					// When editing a file in GridField you're at '/admin/assets/EditForm/field/File/item/<id>/edit'
+					// so the GalleryField isn't available.
+					$('.cms-content-header-tabs').hide();
+				}.bind(this));
+
+				// Sync the GridField when exiting file edit mode in the GalleryField.
+				$(document).on('asset-gallery-field.exit-file-view', function (event) {
+					var $form = this.closest('.cms-edit-form');
+
+					// Show the UploadField, 'add new folder' button, 'up level' button, and tabs.
+					$form.find('.cms-content-toolbar').show();
+					$form.find('.ss-assetuploadfield').show();
+					$('.cms-content-header-tabs').show();
 				}.bind(this));
 			},
 
