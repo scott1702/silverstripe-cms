@@ -250,7 +250,7 @@
 			onmatch: function () {
 				this._super();
 				
-				$('.asset-gallery').trigger('cms.fileAdded');
+				$('.asset-gallery').trigger('asset-admin.reload-gallery');
 				$('.AssetAdmin.cms-edit-form .ss-gridfield').reload();
 			}
 		});
