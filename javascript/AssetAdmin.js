@@ -126,7 +126,12 @@
 		 */
 		$('.AssetAdmin.cms-edit-form .grid-levelup').entwine({
 			onmatch: function () {
-				$('.AssetAdmin .cms-actions-row').prepend(this);
+				//Add the back button to the toolbar if it hasn't been added yet
+				if ($('.AssetAdmin .cms-actions-row').has('.grid-levelup').length) {
+					this.remove();
+				} else {
+					$('.AssetAdmin .cms-actions-row').prepend(this);
+				}
 			},
 			onclick: function (event) {
 				var urlParts = this.prop('href').split('/');
